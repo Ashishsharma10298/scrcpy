@@ -1,10 +1,8 @@
 #include <assert.h>
 #include <string.h>
-
 #include "strutil.h"
-
 static void test_xstrncpy_simple() {
-    char s[] = "xxxxxxxxxx";
+    char s[10] = "xxxxxxxxxx";
     size_t w = xstrncpy(s, "abcdef", sizeof(s));
 
     // returns strlen of copied string
@@ -68,7 +66,7 @@ static void test_xstrjoin_simple() {
 
 static void test_xstrjoin_just_fit() {
     const char *const tokens[] = { "abc", "de", "fghi", NULL };
-    char s[] = "xxxxxxxxxxx";
+    char s[10] = "xxxxxxxxxxx";
     size_t w = xstrjoin(s, tokens, ' ', sizeof(s));
 
     // returns strlen of concatenation
@@ -83,7 +81,7 @@ static void test_xstrjoin_just_fit() {
 
 static void test_xstrjoin_truncated_in_token() {
     const char *const tokens[] = { "abc", "de", "fghi", NULL };
-    char s[] = "xxxxx";
+    char s[10] = "xxxxx";
     size_t w = xstrjoin(s, tokens, ' ', sizeof(s));
 
     // returns 'n' (sizeof(s))
@@ -113,7 +111,7 @@ static void test_xstrjoin_truncated_before_sep() {
 
 static void test_xstrjoin_truncated_after_sep() {
     const char *const tokens[] = { "abc", "de", "fghi", NULL };
-    char s[] = "xxxxxxx";
+    char s[10] = "xxxxxxx";
     size_t w = xstrjoin(s, tokens, ' ', sizeof(s));
 
     // returns 'n' (sizeof(s))
@@ -126,7 +124,7 @@ static void test_xstrjoin_truncated_after_sep() {
     assert(!strcmp("abc de ", s));
 }
 
-int main() {
+void main() {
     test_xstrncpy_simple();
     test_xstrncpy_just_fit();
     test_xstrncpy_truncated();
@@ -135,5 +133,4 @@ int main() {
     test_xstrjoin_truncated_in_token();
     test_xstrjoin_truncated_before_sep();
     test_xstrjoin_truncated_after_sep();
-    return 0;
 }
